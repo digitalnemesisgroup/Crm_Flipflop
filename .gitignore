@@ -1,0 +1,5 @@
+.env
+.env.production
+.env.hostinger_ready
+.env.backup
+.phpunit.result.cache
