@@ -24,8 +24,12 @@ if (!$baseDir) {
 require $baseDir . '/vendor/autoload.php';
 $app = require_once $baseDir . '/bootstrap/app.php';
 
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-$kernel->handle(Illuminate\Http\Request::capture());
+// Bootstrap Laravel container and facades without dispatching HTTP request
+if ($app instanceof \Illuminate\Contracts\Console\Kernel) {
+    $app->bootstrap();
+} else {
+    $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+}
 
 ?>
 <!DOCTYPE html>
@@ -90,8 +94,12 @@ try {
     // Step 5: Rebuild Production Caches
     @\Illuminate\Support\Facades\Artisan::call('view:cache');
     @\Illuminate\Support\Facades\Artisan::call('config:cache');
-    @\Illuminate\Support\Facades\Artisan::call('route:cache');
-    $steps[] = ['title' => 'Production Optimization', 'status' => 'ok', 'msg' => 'Routes, views, and configuration cached for fast performance.'];
+    try {
+        @\Illuminate\Support\Facades\Artisan::call('route:cache');
+    } catch (\Throwable $rcErr) {
+        @\Illuminate\Support\Facades\Artisan::call('route:clear');
+    }
+    $steps[] = ['title' => 'Production Optimization', 'status' => 'ok', 'msg' => 'Views and configuration cached for fast performance.'];
 
 } catch (\Throwable $e) {
     $steps[] = ['title' => 'Setup Exception', 'status' => 'error', 'msg' => $e->getMessage()];
