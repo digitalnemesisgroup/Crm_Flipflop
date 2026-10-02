@@ -39,10 +39,10 @@
             <x-table.tbody>
                 @forelse($tasks as $task)
                     <x-table.tr>
-                        <x-table.td>{{ $task->user->name }}</x-table.td>
+                        <x-table.td>{{ $task->user?->name ?? 'Unknown / Deleted User' }}</x-table.td>
                         <x-table.td>
                             <div class="text-sm font-medium text-gray-900">{{ $task->title }}</div>
-                            <div class="text-xs text-gray-500">Template: {{ $task->formTemplate->name }}</div>
+                            <div class="text-xs text-gray-500">Template: {{ $task->formTemplate?->name ?? 'N/A' }}</div>
                         </x-table.td>
                         <x-table.td>
                             <div class="text-xs font-medium text-gray-900">
@@ -179,7 +179,7 @@
                     <div class="mb-6 flex justify-between items-end border-b pb-4">
                         <div>
                             <h4 class="text-lg font-bold text-gray-800">{{ $activeTask->title }}</h4>
-                            <p class="text-sm text-gray-500">Assigned to {{ $activeTask->user->name }}</p>
+                            <p class="text-sm text-gray-500">Assigned to {{ $activeTask->user?->name ?? 'Unknown / Deleted User' }}</p>
                         </div>
                         <div class="text-right">
                             <div class="text-xl font-bold text-indigo-600">{{ $activeTask->approvedCount() }} / {{ $activeTask->target_count }}</div>
@@ -207,7 +207,7 @@
                                     </div>
                                     <div class="p-4">
                                         <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
-                                            @foreach($activeTask->formTemplate->schema as $field)
+                                            @foreach($activeTask->formTemplate?->schema ?? [] as $field)
                                                 <div class="sm:col-span-1">
                                                     <dt class="text-xs font-medium text-gray-500 uppercase">{{ $field['label'] }}</dt>
                                                     <dd class="mt-1 text-sm text-gray-900 font-medium break-words">

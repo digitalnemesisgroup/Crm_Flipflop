@@ -61,8 +61,8 @@
                     @forelse($earnings as $earning)
                         <x-table.tr>
                             <x-table.td>
-                                <div class="text-sm font-medium text-gray-900">{{ $earning->user->name }}</div>
-                                <div class="text-xs text-gray-500">{{ $earning->user->roles->first()?->name ?? 'User' }}</div>
+                                <div class="text-sm font-medium text-gray-900">{{ $earning->user?->name ?? 'Unknown / Deleted User' }}</div>
+                                <div class="text-xs text-gray-500">{{ $earning->user?->roles->first()?->name ?? 'User' }}</div>
                             </x-table.td>
                             <x-table.td>
                                 <div class="text-sm text-gray-900 font-medium">{{ $earning->project->name }}</div>

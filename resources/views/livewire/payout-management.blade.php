@@ -49,8 +49,8 @@
                     @forelse($requests as $req)
                         <x-table.tr>
                             <x-table.td>
-                                <div class="text-sm font-medium text-gray-900">{{ $req->user->name }}</div>
-                                <div class="text-xs text-gray-500">{{ $req->user->roles->first()?->name ?? 'User' }}</div>
+                                <div class="text-sm font-medium text-gray-900">{{ $req->user?->name ?? 'Unknown / Deleted User' }}</div>
+                                <div class="text-xs text-gray-500">{{ $req->user?->roles->first()?->name ?? 'User' }}</div>
                             </x-table.td>
                             <x-table.td>
                                 <div class="text-sm text-gray-900">{{ $req->created_at->format('M d, Y H:i') }}</div>

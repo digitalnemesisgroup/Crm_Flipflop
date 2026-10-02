@@ -12,7 +12,7 @@ class SpecialTask extends Model {
         return $this->belongsTo(FormTemplate::class);
     }
     public function user(): BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
     public function submissions(): HasMany {
         return $this->hasMany(SpecialTaskSubmission::class);
